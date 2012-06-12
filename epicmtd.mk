@@ -130,19 +130,9 @@ PRODUCT_PROPERTY_OVERRIDES := \
 
 # Telephony property for CDMA
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.config.vc_call_vol_steps=15 \
     ro.telephony.default_network=4 \
-    ro.com.google.clientidbase=android-sprint-us \
     ro.cdma.home.operator.numeric=310120 \
-    ro.cdma.home.operator.alpha=Sprint \
-    net.cdma.pppd.authtype=require-pap \
-    net.cdma.pppd.user=user[SPACE]SprintNextel \
-    net.interfaces.defaultroute=cdma \
-    net.connectivity.type=CDMA1 \
-    mobiledata.interfaces=ppp0,uwbr0 \
-    ro.telephony.ril_class=SamsungRIL \
-    ro.telephony.ril.v3=datacall \
-    ro.ril.samsung_cdma=true
+    ro.cdma.home.operator.alpha=Sprint
 
 # WiMAX Property setting for checking WiMAX interface
 PRODUCT_PROPERTY_OVERRIDES += \

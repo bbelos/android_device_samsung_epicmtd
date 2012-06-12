@@ -18,6 +18,13 @@
 /dev/video21              0660   system     graphics
 /dev/video22              0660   system     graphics
 
+/dev/modem_ctl            0660   radio      radio
+/dev/modem_fmt            0660   radio      radio
+/dev/modem_rfs            0660   radio      radio
+/dev/s3c2410_serial3      0660   radio      radio
+/dev/block/mtdblock5      0660   radio      radio
+/dev/mtd/mtd5ro           0660   radio      radio
+/dev/mtd/mtd5             0660   radio      radio
 
 #LSI
 /dev/pvrsrvkm             0666   system     system
