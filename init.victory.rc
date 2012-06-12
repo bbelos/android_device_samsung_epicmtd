@@ -88,8 +88,22 @@ on boot
   setprop status.battery.level_scale 9
 
   # Phone
-  setprop ro.telephony.call_ring.multiple 0
+    chown radio radio /sys/class/modemctl/xmm/control
+    chmod 660 /sys/class/modemctl/xmm/control
+    chown radio radio /dev/s3c2410_serial3
+    chmod 660 /dev/s3c2410_serial3
+    chown radio radio /dev/block/mtdblock5
+    chmod 640 /dev/block/mtdblock5
+    setprop ro.telephony.call_ring.multiple 0
 
+  # change permission for uart_switch
+  chown radio radio /sys/class/sec/uart_switch/UART_SEL/value
+  chmod 660 /sys/class/sec/uart_switch/UART_SEL/value
+
+  # create radio & log for ril daemon
+  mkdir /data/radio 0775 radio radio
+  mkdir /data/radio/log 0775 radio radio
+  
   # Enable WiFi
   setprop wifi.interface "eth0"
 
@@ -270,6 +284,16 @@ on post-fs-data
   mkdir /data/download 0770 system cache
 
   setprop vold.post_fs_data_done 1
+
+on fs
+    mkdir /efs 0775 radio radio
+    mount yaffs2 mtd@efs /efs nosuid nodev
+  chmod 770 /efs/bluetooth
+	chmod 770 /efs/imei
+
+# We chown/chmod /efs because mount is run as root + defaults
+    chown radio radio /efs
+    chmod 0775 /efs
 
 ###############################################################################
 #-------------------- End Triggers / Actions ---------------------------------#
