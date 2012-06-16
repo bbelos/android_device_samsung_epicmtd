@@ -16,6 +16,11 @@
 
 <!-- Crespo-specific phone app resources. -->
 <resources>
+    <!-- Flag indicating if tty is enabled -->
+    <bool name="tty_enabled">true</bool>
+
+    <!-- Disables Voice Privacy option in the Other call settings section of Call Settings -->
+    <bool name="config_voice_privacy_disable">true</bool>
 
     <!-- This device implements a noise suppression device for in call audio-->
     <bool name="has_in_call_noise_suppression">true</bool>
