@@ -35,12 +35,6 @@ PRODUCT_COPY_FILES += \
   device/samsung/epicmtd/init.victory.rc:root/init.victory.rc \
   device/samsung/epicmtd/init.victory.usb.rc:root/init.victory.usb.rc
 
-# RIL
-PRODUCT_COPY_FILES += \
-     device/samsung/epicmtd/prebuilt/bin/pppd_runner:system/bin/pppd_runner \
-     device/samsung/epicmtd/prebuilt/etc/ppp/ip-up:system/etc/ppp/ip-up
-FRAMEWORKS_BASE_SUBDIRS += ../../$(LOCAL_PATH)/epicril/
-
 # WiFi
 PRODUCT_COPY_FILES += \
      device/samsung/epicmtd/prebuilt/etc/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf
@@ -133,19 +127,9 @@ PRODUCT_PROPERTY_OVERRIDES := \
 
 # Telephony property for CDMA
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.config.vc_call_vol_steps=15 \
     ro.telephony.default_network=4 \
-    ro.com.google.clientidbase=android-sprint-us \
     ro.cdma.home.operator.numeric=310120 \
     ro.cdma.home.operator.alpha=Sprint \
-    net.cdma.pppd.authtype=require-pap \
-    net.cdma.pppd.user=user[SPACE]SprintNextel \
-    net.interfaces.defaultroute=cdma \
-    net.connectivity.type=CDMA1 \
-    mobiledata.interfaces=ppp0,uwbr0 \
-    ro.telephony.ril_class=EpicRIL \
-    ro.telephony.ril.v3=datacall \
-    ro.ril.samsung_cdma=true
 
 # WiMAX Property setting for checking WiMAX interface
 PRODUCT_PROPERTY_OVERRIDES += \

@@ -6,10 +6,6 @@ on init
   # FIXME: Market checks this variable for space-checking, but downloads to /datadata
   export DOWNLOAD_CACHE /data/download
 
-  # Following TeamHackSung's lead, we will create our own ril-daemon service in
-  # class 'core' because the rild doesn't like being killed. (During device encryption.)
-  stop ril-daemon
-
 on fs
   # External microSDcard storage
   export EXTERNAL_STORAGE /mnt/sdcard
@@ -86,6 +82,8 @@ on boot
   setprop status.battery.level 5
   setprop status.battery.level_raw  50
   setprop status.battery.level_scale 9
+
+  setprop ro.radio.noril yes
 
   # Set our own bdaddr path
   setprop ro.bt.bdaddr_path /data/bdaddr
@@ -257,12 +255,6 @@ on property:persist.service.slate_mode=1
 on property:persist.service.slate_mode=0
   write /sys/class/power_supply/battery/slate_test_mode 0
 
-on property:ril.cdma.data_state=1
-  restart pppd_cdma
-
-on property:ril.cdma.data_state=0
-  stop pppd_cdma
-
 on property:ril.bt_macaddr=*
   start bdaddr
 
@@ -286,12 +278,6 @@ on post-fs-data
 ###############################################################################
 
 #- Begin Core Services -#
-service victory-rild /system/bin/rild
-  class core
-  socket rild stream 660 root radio
-  socket rild-debug stream 660 radio system
-  user root
-  group radio cache inet misc audio sdcard_rw log
 
 # 3D init
 service pvrsrvinit /system/vendor/bin/pvrsrvinit
@@ -315,13 +301,6 @@ service dhcpcd_eth0 /system/bin/dhcpcd -ABKL
 
 service iprenew_eth0 /system/bin/dhcpcd -n
   class main
-  disabled
-  oneshot
-
-service pppd_cdma /system/bin/pppd_runner
-  class main
-  user root
-  group radio cache inet misc system
   disabled
   oneshot
 
