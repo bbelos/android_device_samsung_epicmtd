@@ -91,6 +91,12 @@ on boot
   # Phone
   setprop ro.telephony.call_ring.multiple 0
 
+# create data/gps for GPS demon
+    mkdir /data/gps 770 gps system
+    chown gps system /data/gps
+    chown gps root /sys/class/sec/gps/GPS_PWR_EN/value
+    chmod 660 /sys/class/sec/gps/GPS_PWR_EN/value
+
   # Enable WiFi
   setprop wifi.interface "eth0"
 
@@ -259,10 +265,7 @@ on property:ril.bt_macaddr=*
   start bdaddr
 
 on post-fs-data
-  # Create data/gps for GPS daemon
-  mkdir /data/gps 771 gps system
-  chown gps system /data/gps
-  chmod 0777 /system/vendor/bin/gpsd
+
 
   # WiFi permissions
   mkdir /data/misc/wifi/sockets 0770 wifi wifi
@@ -278,6 +281,17 @@ on post-fs-data
 ###############################################################################
 
 #- Begin Core Services -#
+# create radio & log for ril daemon
+    mkdir /data/radio 0775 radio radio
+    mkdir /data/radio/log 0775 radio radio
+
+    setprop vold.post_fs_data_done 1
+
+service gpsd /system/vendor/bin/gpsd -c /vendor/etc/gps.xml
+    class main
+    socket gps seqpacket 0660 gps system
+    user gps
+    group system inet
 
 # 3D init
 service pvrsrvinit /system/vendor/bin/pvrsrvinit
@@ -345,11 +359,6 @@ service geomagneticd /system/bin/geomagneticd
   class late_start
   user compass
   group system input
-
-service gps-daemon /system/vendor/bin/gpsd
-  class late_start
-  user system
-  group system inet
 
 service tvout /system/bin/tvoutserver
   class late_start
